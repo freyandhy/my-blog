@@ -1,12 +1,9 @@
 import Head from "next/head";
-import Link from "next/link";
-import Image from "next/image";
-import moment from "moment";
-
-import { Client } from "@notionhq/client";
+import { Header, Footer } from "../components/Layout";
+import { PostList } from "../components/Post";
+import { getDatabase } from "../lib/notion";
 
 export default function Home({ posts }) {
-  console.log(posts);
   return (
     <div className="container mx-auto px-4">
       <Head>
@@ -15,80 +12,21 @@ export default function Home({ posts }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <header className="flex justify-start items-center mt-8 filter drop-shadow-lg">
-        <Image
-          src={"/images/propic.jpg"}
-          alt="profile"
-          width="48"
-          height="48"
-          className="rounded-full"
-        />
-        <span className="font-proza font-extrabold text-blue-500 text-3xl mt-2 ml-5 flex-1">
-          friandy.web.id
-        </span>
-      </header>
+      <Header />
       <main className="h-screen">
-        <div className="post-list mt-12">
-          {posts.map((post) => (
-            <div
-              className="post flex items-center border-dotted border-b last:border-b-0 py-8 px-4 mb-8 cursor-pointer hover:shadow-lg"
-              key={post.id}
-            >
-              <div className="post__left flex-1 mr-8">
-                <Link
-                  href="/post/[slug]"
-                  as={`/post/${post.properties.slug.rich_text[0].plain_text}`}
-                  passHref
-                >
-                  <h2 className="font-lato font-bold text-xl text-gray-600 md:text-3xl lg:text-4xl">
-                    {post.properties.post.title[0].plain_text}
-                  </h2>
-                </Link>
-
-                {post.properties.tags.multi_select.map((tag) => (
-                  <p
-                    key={tag.id}
-                    className={`font-lato text-left text-${tag.color}-400`}
-                  >
-                    {tag.name}
-                  </p>
-                ))}
-              </div>
-              <div className="post__right">
-                <p className="text-right text-gray-400 font-proza text-sm">
-                  {moment(post.properties.date.date.start).format(
-                    "DD MMMM YYYY"
-                  )}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
+        <PostList posts={posts} />
       </main>
-
-      <footer className="border-t text-center font-lato py-4">
-        &copy; Friandy Dwi Noviandha 2021
-      </footer>
+      <Footer />
     </div>
   );
 }
 
 export async function getStaticProps() {
-  const notion = new Client({ auth: process.env.NOTION_API_KEY });
-  const database_id = process.env.NOTION_DATABASE_ID;
-  const response = await notion.databases.query({
-    database_id,
-    filter: {
-      property: "status",
-      select: {
-        equals: "published",
-      },
-    },
-  });
-
+  const filter = { property: "status", select: { equals: "published" } };
+  const database = await getDatabase(filter);
   return {
     props: {
-      posts: response.results,
+      posts: database,
     },
     revalidate: 1,
   };

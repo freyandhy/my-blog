@@ -1,5 +1,6 @@
 import Link from "next/link";
 import moment from "moment";
+import { removeDash } from "lib/helper";
 
 const Post = ({ post }) => {
   return (
@@ -10,18 +11,19 @@ const Post = ({ post }) => {
           as={`/post/${post.properties.slug.rich_text[0].plain_text}`}
           passHref
         >
-          <h2 className="font-lato font-bold text-xl text-gray-600 md:text-3xl lg:text-4xl">
+          <h2 className="font-lato font-bold text-xl text-gray-600 md:text-3xl lg:text-4xl mb-2">
             {post.properties.post.title[0].plain_text}
           </h2>
         </Link>
 
         {post.properties.tags.multi_select.map((tag) => (
-          <p
-            key={tag.id}
-            className={`font-lato text-left text-${tag.color}-400`}
-          >
-            {tag.name}
-          </p>
+          <Link href="#" passHref key={tag.id}>
+            <span
+              className={`font-lato text-sm bg-${tag.color}-300 hover:bg-${tag.color}-600 text-black hover:text-white text-center py-1 px-3 mr-2 rounded-full`}
+            >
+              {tag.name}
+            </span>
+          </Link>
         ))}
       </div>
       <div className="post__right">

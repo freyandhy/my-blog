@@ -2,7 +2,6 @@ import Link from "next/link";
 import Head from "next/head";
 import { ArrowNarrowLeft } from "components/Icons";
 import { Header, Footer } from "components/Layout";
-import { generateSlug } from "lib/helper";
 import { Block } from "components/Post";
 import { getDatabase, getPage, getBlocks, getBlockIdBySlug } from "lib/notion";
 
@@ -44,19 +43,15 @@ export const getStaticPaths = async () => {
   const filter = { property: "status", select: { equals: "published" } };
   const database = await getDatabase(filter);
   const paths = database.map((page) => ({
-    params: { slug: generateSlug(page) },
+    params: { slug: page.properties.slug.rich_text[0].plain_text },
   }));
 
   return { paths, fallback: true };
 };
 
 export async function getStaticProps({ params }) {
-  try {
-    const id = await getBlockIdBySlug(params.slug);
-    const page = await getPage(id);
-    const blocks = await getBlocks(id);
-    return { props: { blocks, page } };
-  } catch (err) {
-    console.log(err);
-  }
+  const id = await getBlockIdBySlug(params.slug);
+  const page = await getPage(id);
+  const blocks = await getBlocks(id);
+  return { props: { blocks, page } };
 }

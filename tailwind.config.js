@@ -20,6 +20,7 @@ module.exports = {
   },
   variants: {
     extend: {
+      textColor: ["active"],
       borderWidth: ["last"],
       fontWeight: ["hover"],
     },

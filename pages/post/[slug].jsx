@@ -51,9 +51,12 @@ export const getStaticPaths = async () => {
 };
 
 export async function getStaticProps({ params }) {
-  const id = await getBlockIdBySlug(params.slug);
-  const page = await getPage(id);
-  const blocks = await getBlocks(id);
-
-  return { props: { blocks, page } };
+  try {
+    const id = await getBlockIdBySlug(params.slug);
+    const page = await getPage(id);
+    const blocks = await getBlocks(id);
+    return { props: { blocks, page } };
+  } catch (err) {
+    console.log(err);
+  }
 }

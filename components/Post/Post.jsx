@@ -19,9 +19,7 @@ const Post = ({ post }) => {
         {post.properties.tags.multi_select.map((tag) => (
           <Link href="#" passHref key={tag.id}>
             <span
-              className={`${renderBgColor(
-                tag.color
-              )} font-lato text-sm text-black hover:text-white text-center py-1 px-3 mr-2 rounded-full`}
+              className={`font-lato text-sm bg-${tag.color}-300 hover:bg-${tag.color}-600 text-black hover:text-white text-center py-1 px-3 mr-2 rounded-full`}
             >
               {tag.name}
             </span>

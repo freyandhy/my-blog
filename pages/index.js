@@ -9,7 +9,7 @@ export default function Home({ posts }) {
       <Head>
         <title>Friandy Notes</title>
         <meta name="description" content="Friandy Notes" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.png" />
       </Head>
 
       <Header />

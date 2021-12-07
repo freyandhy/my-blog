@@ -18,7 +18,7 @@ const PostDetail = ({ blocks, page }) => {
           name="description"
           content={page.properties.post.title[0].plain_text}
         />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.png" />
       </Head>
 
       <Header />

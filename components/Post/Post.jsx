@@ -1,6 +1,5 @@
 import Link from "next/link";
 import moment from "moment";
-import { renderBgColor } from "lib/helper";
 
 const Post = ({ post }) => {
   return (

@@ -17,6 +17,28 @@ const Block = ({ block }) => {
           {value.text[0].plain_text}
         </h1>
       );
+    case "heading_2":
+      return (
+        <h2 className="font-lato font-bold text-2xl">
+          {value.text[0].plain_text}
+        </h2>
+      );
+    case "heading_3":
+      return (
+        <h3 className="font-lato font-bold text-xl">
+          {value.text[0].plain_text}
+        </h3>
+      );
+    case "image":
+      const src =
+        value.type === "external" ? value.external.url : value.file.url;
+      const caption = value.caption ? value.caption[0].plain_text : "";
+      return (
+        <figure>
+          {/* eslint-disable-next-line */}
+          <img src={src} alt={caption} />
+        </figure>
+      );
     default:
       return `❌ Unsupported block (${
         type === "unsupported" ? "unsupported by Notion API" : type

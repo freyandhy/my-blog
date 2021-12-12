@@ -1,6 +1,6 @@
 const Text = ({ text }) => {
-  if (!text) {
-    return null;
+  if (!text || text.length < 1) {
+    return <br />;
   }
 
   return text.map((value, index) => {

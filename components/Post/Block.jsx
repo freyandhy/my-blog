@@ -13,7 +13,7 @@ const Block = ({ block }) => {
       );
     case "heading_1":
       return (
-        <h1 className="font-lato font-bold text-4xl">
+        <h1 className="font-lato font-bold text-4xl mb-8">
           {value.text[0].plain_text}
         </h1>
       );
